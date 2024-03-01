@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .todo-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
+
+        .todo-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .todo-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .todo-id {
+            color: #6c757d;
+            font-size: 0.8em;
+        }
+
+        .todo-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .todo-status {
+            font-size: 1em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <div class="todo-list" id="todo-list"></div>
+    </div>
+
+    <script>
+        // Function to fetch todos from the API
+        function fetchTodos() {
+            fetch("/todo/api")
+                .then(response => response.json())
+                .then(todos => {
+                    const todoList = document.getElementById("todo-list");
+                    todoList.innerHTML = "";
+
+                    todos.forEach(todo => {
+                        const todoItem = document.createElement("div");
+                        todoItem.classList.add("todo-item");
+                        todoItem.innerHTML = `
+                            <div class="todo-item-content">
+                                <span class="todo-id">ID: ${todo.id}</span><br>
+                                <span class="todo-title">${todo.title}</span><br>
+                                <span class="todo-status">${todo.done ? "Done" : "Not Done"}</span>
+                            </div>
+                        `;
+                        todoList.appendChild(todoItem);
+                    });
+                })
+                .catch(error => console.error("Error fetching todos:", error));
+        }
+
+        // Initial fetch of todos when the page loads
+        fetchTodos();
+    </script>
+</body>
+</html>

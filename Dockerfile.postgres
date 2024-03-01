@@ -1,0 +1,11 @@
+FROM postgres:alpine
+
+COPY init.sql /docker-entrypoint-initdb.d/init.sql
+
+ENV POSTGRES_USER=app
+ENV POSTGRES_PASSWORD=password123
+ENV POSTGRES_DB=app
+
+EXPOSE 5432
+
+CMD ["postgres"]

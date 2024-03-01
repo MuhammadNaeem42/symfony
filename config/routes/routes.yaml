@@ -1,0 +1,5 @@
+# config/routes.yaml
+app_todo_api:
+    path: '/todo/api'
+    controller: 'App\Controller\TodoApiController::index'
+    methods: 'GET'
